@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_events.dart';
 import 'package:todo_app/todo_item/todo_item.dart';
-import 'package:todo_app/todos_bloc/todos_bloc.dart';
-import 'package:todo_app/todos_bloc/todos_events.dart';
 
 class TodoItemView extends StatelessWidget {
   TodoItemView({Key? key, required this.item, required this.bloc})
@@ -11,7 +10,7 @@ class TodoItemView extends StatelessWidget {
   final TodoItem item;
   final _titleController = TextEditingController();
   final _notesController = TextEditingController();
-  final TodosBloc bloc;
+  final TodoBloc bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class TodoItemView extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200], // todo: replace with theme color
+                  color: Colors.grey[300], // todo: replace with theme color
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
@@ -50,18 +49,23 @@ class TodoItemView extends StatelessWidget {
               //   item.description,
               //   style: textTheme.bodyText2,
               // ),
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200], // todo: replace with theme color
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextField(
-                  controller: _notesController,
-                  minLines: 5,
-                  maxLines: null,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  style: textTheme.bodyText2,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300], // todo: replace with theme color
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: _notesController,
+                    minLines: 5,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      hintText: 'Notes',
+                      border: InputBorder.none,
+                    ),
+                    style: textTheme.bodyText2,
+                  ),
                 ),
               ),
             ],

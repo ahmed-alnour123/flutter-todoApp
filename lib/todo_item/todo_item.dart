@@ -8,7 +8,7 @@ class TodoItem {
   String title;
   String notes;
   bool isDone;
-  // todo: add date, orderIndex, alarm, deadLine
+  // TODO: add: date, orderIndex, alarm, deadLine
 
   TodoItem({
     this.title = 'No Title',

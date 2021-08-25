@@ -1,25 +1,15 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/todos_bloc/todos_bloc.dart';
-import 'package:todo_app/todos_bloc/todos_state.dart';
-import 'package:todo_app/todos_list/todo_list_item.dart';
+import 'package:todo_app/todo_bloc/todo_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_state.dart';
+import 'package:todo_app/todo_list/todo_list_item_view.dart';
 
-class TodosList extends StatelessWidget {
-  // final List<TodoItem> items = List.generate(
-  //   20,
-  //   (i) => TodoItem(
-  //     title: faker.lorem.word(),
-  //     description: faker.lorem.sentence(),
-  //     isDone: Random().nextBool(),
-  //   ),
-  // );
-
+class TodoListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: BlocBuilder<TodosBloc, TodosState>(
+      child: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
           var unChecked = state.items
               .where((i) => !i.isDone)

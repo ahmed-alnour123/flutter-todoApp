@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/shared/add_todo_dialog.dart';
+import 'package:todo_app/todo_bloc/todo_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_events.dart';
+import 'package:todo_app/todo_bloc/todo_state.dart';
 import 'package:todo_app/todo_item/todo_item.dart';
-import 'package:todo_app/todos_bloc/todos_bloc.dart';
-import 'package:todo_app/todos_bloc/todos_events.dart';
-import 'package:todo_app/todos_list/todos_list.dart';
+import 'package:todo_app/todo_list/todo_list_view.dart';
+import 'package:todo_app/todos_list/todos_list_view.dart';
+import 'package:todo_app/todos_lists_bloc/todos_lists_bloc.dart';
 
 class MainScreen extends StatelessWidget {
+  late final TodosListsBloc listsBloc;
+
   @override
   Widget build(BuildContext context) {
+    listsBloc = BlocProvider.of<TodosListsBloc>(context);
+
     return Scaffold(
       appBar: _buildAppBar(),
-      // drawer: _buildDrawer(),
+      drawer: TodosListView(),
       floatingActionButton: _buildFAB(context),
-      body: TodosList(),
+      body: TodoListView(),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text('My Todo App'),
+      title: BlocBuilder<TodoBloc, TodoState>(
+        builder: (context, state) {
+          return Text(state.list.name);
+        },
+      ),
     );
-  }
-
-  Widget _buildDrawer() {
-    return Drawer();
   }
 
   Widget _buildFAB(BuildContext context) {
@@ -39,7 +46,7 @@ class MainScreen extends StatelessWidget {
         ).then(
           (item) {
             if (item == null) return;
-            BlocProvider.of<TodosBloc>(context).add(
+            BlocProvider.of<TodoBloc>(context).add(
               TodoAddEvent(
                 item: item,
               ),

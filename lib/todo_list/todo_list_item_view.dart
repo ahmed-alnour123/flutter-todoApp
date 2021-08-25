@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_bloc.dart';
+import 'package:todo_app/todo_bloc/todo_events.dart';
 import 'package:todo_app/todo_item/todo_item.dart';
 import 'package:todo_app/todo_item/todo_item_view.dart';
-import 'package:todo_app/todos_bloc/todos_bloc.dart';
-import 'package:todo_app/todos_bloc/todos_events.dart';
 
 class TodoListItem extends StatelessWidget {
   final TodoItem item;
@@ -16,12 +16,31 @@ class TodoListItem extends StatelessWidget {
       child: Card(
         child: ListTile(
           title: Text(
+            // item.title,
             item.title,
             style: TextStyle(
               decoration: item.isDone
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
             ),
+          ),
+          leading: Checkbox(
+            shape: CircleBorder(),
+            onChanged: (bool? value) {
+              // edit check
+              BlocProvider.of<TodoBloc>(context).add(
+                TodoCheckEvent(item: item, newValue: value),
+              );
+            },
+            value: item.isDone,
+          ),
+          trailing: IconButton(
+            onPressed: () {
+              var bloc = BlocProvider.of<TodoBloc>(context);
+
+              bloc.add(TodoDeleteEvent(item: item));
+            },
+            icon: Icon(Icons.delete),
           ),
           onTap: () {
             // go to new route
@@ -30,7 +49,7 @@ class TodoListItem extends StatelessWidget {
               MaterialPageRoute(builder: (context) {
                 return TodoItemView(
                   item: item,
-                  bloc: BlocProvider.of<TodosBloc>(context),
+                  bloc: BlocProvider.of<TodoBloc>(context),
                 );
               }),
             );
@@ -38,24 +57,6 @@ class TodoListItem extends StatelessWidget {
           onLongPress: () {
             // edit todo
           },
-          leading: Checkbox(
-            shape: CircleBorder(),
-            onChanged: (bool? value) {
-              // edit check
-              BlocProvider.of<TodosBloc>(context).add(
-                TodoCheckEvent(item: item, newValue: value),
-              );
-            },
-            value: item.isDone,
-          ),
-          trailing: IconButton(
-            onPressed: () {
-              var bloc = BlocProvider.of<TodosBloc>(context);
-
-              bloc.add(TodoDeleteEvent(item: item));
-            },
-            icon: Icon(Icons.delete),
-          ),
         ),
       ),
     );
