@@ -16,9 +16,12 @@ class TodosListsBloc extends Bloc<TodosListsEvent, TodosListsState>
   @override
   Stream<TodosListsState> mapEventToState(TodosListsEvent event) async* {
     if (event is TodosSelectEvent) {
-      model.select(event.list);
-    }
-    if (event is TodosRefreshEvent) {
+      model.selectList(event.list);
+    } else if (event is TodosAddEvent) {
+      model.addList(event.list);
+    } else if (event is TodosDeleteEvent) {
+      model.deleteList(event.list);
+    } else if (event is TodosRefreshEvent) {
       // no need to do anything
     }
 

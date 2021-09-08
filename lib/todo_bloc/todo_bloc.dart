@@ -13,18 +13,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> implements RefreshBloc {
   @override
   Stream<TodoState> mapEventToState(TodoEvent event) async* {
     if (event is TodoAddEvent) {
-      model.add(event.item);
-    }
-    if (event is TodoCheckEvent) {
-      model.toggle(event.item, event.newValue);
-    }
-    if (event is TodoEditEvent) {
-      model.edit(event.oldItem, event.newItem);
-    }
-    if (event is TodoDeleteEvent) {
-      model.delete(event.item);
-    }
-    if (event is TodoRefreshEvent) {
+      model.addItem(event.item);
+    } else if (event is TodoCheckEvent) {
+      model.toggleItem(event.item, event.newValue);
+    } else if (event is TodoEditEvent) {
+      model.editItem(event.oldItem, event.newItem);
+    } else if (event is TodoDeleteEvent) {
+      model.deleteItem(event.item);
+    } else if (event is TodoRefreshEvent) {
       // no need to do anything
     }
 

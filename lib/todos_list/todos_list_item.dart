@@ -20,6 +20,14 @@ class TodosListItem extends StatelessWidget {
             TodosSelectEvent(list: list),
           );
         },
+        trailing: IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            BlocProvider.of<TodosListsBloc>(context).add(
+              TodosDeleteEvent(list: list),
+            );
+          },
+        ),
       ),
     );
   }

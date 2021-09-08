@@ -21,32 +21,34 @@ class TodoListView extends StatelessWidget {
               .map((i) => TodoListItem(item: i))
               .toList();
 
-          return ListView(
-            children: [
-              if (unChecked.isNotEmpty)
-                SizedBox(
-                  height: 20,
-                  child: Container(
-                    color: Colors.grey[300],
-                    child: Text('Ongoing Tasks'),
-                  ),
-                ),
-              Column(
-                children: unChecked,
-              ),
-              if (checked.isNotEmpty)
-                SizedBox(
-                  height: 20,
-                  child: Container(
-                    color: Colors.grey[300],
-                    child: Text('Completed Tasks'),
-                  ),
-                ),
-              Column(
-                children: checked,
-              ),
-            ],
-          );
+          return state.items.isEmpty
+              ? Center(child: Text('No Items'))
+              : ListView(
+                  children: [
+                    if (unChecked.isNotEmpty)
+                      SizedBox(
+                        height: 20,
+                        child: Container(
+                          color: Colors.grey[300],
+                          child: Text('Ongoing Tasks'),
+                        ),
+                      ),
+                    Column(
+                      children: unChecked,
+                    ),
+                    if (checked.isNotEmpty)
+                      SizedBox(
+                        height: 20,
+                        child: Container(
+                          color: Colors.grey[300],
+                          child: Text('Completed Tasks'),
+                        ),
+                      ),
+                    Column(
+                      children: checked,
+                    ),
+                  ],
+                );
         },
       ),
     );

@@ -15,12 +15,15 @@ class TodoList {
   }) : _items = items ?? [];
 
   void add(TodoItem item) {
-    if (item.title.isEmpty) return;
+    if (item.title.isEmpty) return; // throw warning: you must have title
+    item.orderIndex = _items.length; // assign the order index for new item
     _items.add(item);
+    orderList();
   }
 
   void delete(TodoItem item) {
     _items.remove(item);
+    orderList();
   }
 
   void toggle(TodoItem item, bool? newValue) {
@@ -31,14 +34,28 @@ class TodoList {
     oldItem.edit(newItem);
   }
 
-  /// this is for debugging only
-  TodoList.random()
-      : name = faker.lorem.word(),
-        isSelected = false,
-        _items = List<TodoItem>.generate(10, (i) => TodoItem.random());
-
   @override
   String toString() {
     return '{name=$name, isSelected=$isSelected}';
+  }
+
+  void orderList() {
+    var i = 0;
+    _items.sort(sortByindex);
+    _items.forEach((item) {
+      item.orderIndex = i++;
+    });
+  }
+
+  int sortByindex(TodoItem i1, TodoItem i2) {
+    return i1.orderIndex.compareTo(i2.orderIndex);
+  }
+
+  /// this is for debugging only TODO: remove
+  TodoList.random()
+      : name = faker.lorem.word(),
+        isSelected = false,
+        _items = List<TodoItem>.generate(5, (i) => TodoItem.random()) {
+    orderList();
   }
 }

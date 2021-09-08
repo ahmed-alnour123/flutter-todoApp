@@ -8,8 +8,12 @@ class TodosModel {
   late int _currentIndex;
   List<RefreshBloc> _blocs = [];
 
+  // public getters
   List<TodoList> get lists => _todosLists;
-  TodoList get currentList => _todosLists[_currentIndex];
+  TodoList get currentList =>
+      (0 <= _currentIndex && _currentIndex < _todosLists.length)
+          ? _todosLists[_currentIndex]
+          : TodoList(name: 'empty list');
   int get currentIndex => _currentIndex;
 
   TodosModel() {
@@ -17,26 +21,43 @@ class TodosModel {
     _currentIndex = _todosLists.indexWhere((list) => list.isSelected);
   }
 
-  void add(TodoItem item) {
+  // items functions
+  void addItem(TodoItem item) {
     currentList.add(item);
   }
 
-  void delete(TodoItem item) {
+  void deleteItem(TodoItem item) {
     currentList.delete(item);
   }
 
-  void toggle(TodoItem item, bool? newValue) {
+  void toggleItem(TodoItem item, bool? newValue) {
     currentList.toggle(item, newValue);
   }
 
-  void edit(TodoItem oldItem, TodoItem newItem) {
+  void editItem(TodoItem oldItem, TodoItem newItem) {
     currentList.edit(oldItem, newItem);
   }
 
-  void select(TodoList list) {
-    _todosLists.firstWhere((list) => list.isSelected).isSelected = false;
+  // lists functions
+  void selectList(TodoList list) {
+    try {
+      _todosLists.firstWhere((list) => list.isSelected).isSelected = false;
+    } on StateError {}
+
     list.isSelected = true;
     _currentIndex = _todosLists.indexOf(list);
+    refreshBlocs();
+  }
+
+  void addList(TodoList list) {
+    _todosLists.add(list);
+  }
+
+  void deleteList(TodoList list) {
+    _todosLists.remove(list);
+    if (list.isSelected && _todosLists.isNotEmpty) {
+      selectList(_todosLists.first);
+    }
     refreshBlocs();
   }
 

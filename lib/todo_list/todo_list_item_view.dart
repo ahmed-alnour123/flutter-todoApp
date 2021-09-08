@@ -16,7 +16,7 @@ class TodoListItem extends StatelessWidget {
       child: Card(
         child: ListTile(
           title: Text(
-            // item.title,
+            // item.orderIndex.toString() + ': ' + item.title,
             item.title,
             style: TextStyle(
               decoration: item.isDone
@@ -53,9 +53,6 @@ class TodoListItem extends StatelessWidget {
                 );
               }),
             );
-          },
-          onLongPress: () {
-            // edit todo
           },
         ),
       ),
