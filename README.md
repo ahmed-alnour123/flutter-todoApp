@@ -1,6 +1,6 @@
 # todo_app
 
-a simple todo app that I used Bloc and BlocProvider in.
+a simple todo app that I used Bloc and BlocProvider to make
 
 ## Getting Started
 
